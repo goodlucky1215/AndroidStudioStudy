@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Bear2021</string>
+    <string name="search">찾기</string>
+    <string name="hint">선택한 정보에 대한 조회 결과 출력창</string>
+    <string-array name="beer_colors">
+        <item>light</item>
+        <item>amber</item>
+        <item>brown</item>
+        <item>dark</item>
+    </string-array>
+    <string-array name="beer_from">
+        <item>Korea</item>
+        <item>America</item>
+        <item>German</item>
+        <item>US</item>
+    </string-array>
+</resources>

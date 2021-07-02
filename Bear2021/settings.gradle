@@ -1,0 +1,2 @@
+rootProject.name = "Bear2021"
+include ':app'
