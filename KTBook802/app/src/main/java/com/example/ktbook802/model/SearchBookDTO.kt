@@ -1,6 +1,6 @@
-package com.example.ktbook802
+package com.example.ktbook802.model
 
-import com.example.ktbook802.model.Book
+
 import com.google.gson.annotations.SerializedName
 
 data class SearchBookDTO (
