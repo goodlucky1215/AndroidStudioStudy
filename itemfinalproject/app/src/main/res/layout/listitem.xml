@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:padding="8dp">
+        <!-- layout_alignParentLeft="true" : 부모의 왼쪽에 맞춘다는 얘기 -->
+        <ImageView
+            android:id="@+id/bi_file"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="8dp"
+            />
+
+        <TextView
+            android:id="@+id/bm_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/bi_file"
+            android:layout_alignTop="@+id/bi_file"
+            android:textSize="17dp"
+            android:textStyle="bold"
+            android:text="나야나나나나ㅏㄴ"/>
+        <TextView
+            android:id="@+id/bm_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/bi_file"
+            android:layout_below="@+id/bm_title"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"
+            android:text="이건 날짜야"/>
+        <TextView
+            android:id="@+id/bm_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/bi_file"
+            android:layout_below="@+id/bm_date"
+            android:layout_marginTop="5dp"
+            android:textSize="13dp"
+            android:textStyle="bold"
+            android:text="이건 가경이야"/>
+</RelativeLayout>
