@@ -1,3 +1,5 @@
+package com.example.chunggo803
+
 import android.os.Bundle
 import androidx.lifecycle.ViewModel
 //    implementation 'androidx.core:core-ktx:1.6.0'
@@ -13,7 +15,7 @@ abstract class BaseViewModel: ViewModel() {
     //뷰모델 스코프로 특정 동작을 구현
     //코르틴 라이브러리 사용해서 특정 동작을 구현할 수 있게 한다.
     open fun fetchData(): Job = viewModelScope.launch {  }
-    //Activity나 Fragment가 완전히 종료가 되기전 까지는  Bundle이 계속 값을 유지해줌.
+    //Activity나 Fragment가 완전히 종료가 되기전 까지는 Bundle이 계속 값을 유지해줌.
     open fun storeState(stateBundle: Bundle) {
         this.stateBundle = stateBundle
     }
