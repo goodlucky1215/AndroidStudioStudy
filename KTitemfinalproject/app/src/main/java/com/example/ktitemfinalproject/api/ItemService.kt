@@ -2,11 +2,10 @@ package com.example.ktitemfinalproject.api
 
 import com.example.ktitemfinalproject.model.ItemDetailDto
 import com.example.ktitemfinalproject.model.Items
+import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface ItemService {
     //받아오는 주소와 output은 json형태
@@ -29,6 +28,14 @@ interface ItemService {
         @Query("pr_bm_no") pr_bm_no: Int
     ): Call<ItemDetailDto>
 
+    //아이템 삭제
+    @POST("/item/andselectItemDetail.nds?")
+    fun getItemDeleteByName(
+        @Query("pr_bm_no") item_no: Int, //삭제할 물품
+        @Query("br_sel_buy") br_sel_buy: String //구매자가 삭제하는지 판매자가 삭제하는지
+    ): Call<ResponseBody>
+
+
     //댓글 삭제
    @POST("/item/andDeleteComment.nds")
     fun getCommentDeleteByName(
@@ -42,5 +49,18 @@ interface ItemService {
         @Query("pr_comment_group") group: Int,
         @Query("pr_comment_pos") pos: Int,
         @Query("pr_bm_no") bm_no: Int
+    ): Call<ResponseBody>
+
+    //아이템 등록 - @Multipart는 이미지리서 , @Headers는 한글 처리
+    @Multipart
+    @POST("/item/andInsertItem.nds")
+    @Headers("Content-Type:application/x-www-form-urlencoded; charset=utf-8")
+    fun getItemInsertByName(
+        @Query("pr_BM_TITLE") title: String,
+        @Query("pr_BM_PRICE") price: String,
+        @Query("pr_CATEGORY_NAME") categoriChoice: String,
+        @Query("pr_BM_CONTENT") content: String,
+        @Query("pr_SELLER_NICKNAME") nickName: String,
+        @Part("Img1") file: MultipartBody.Part
     ): Call<ResponseBody>
 }

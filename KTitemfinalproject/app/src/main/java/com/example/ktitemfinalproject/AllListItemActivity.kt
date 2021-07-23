@@ -26,7 +26,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-
+//아이템 전체를 보는 액티비티
 class AllListItemActivity : AppCompatActivity() {
     //메인 UI
     private lateinit var  binding: ActivityAllListItemBinding
@@ -46,6 +46,13 @@ class AllListItemActivity : AppCompatActivity() {
         binding = ActivityAllListItemBinding.inflate(layoutInflater)
         //R.layout.activity_all_list_item이 아닌 바인딩한 그 view바인딩.root를 해주면 view를 넣는 것과 같다,
         setContentView(binding.root)
+
+        ////글 올리기 버튼 클릭///
+        binding.newItemInsertButton.setOnClickListener {
+            val intent = Intent(this, ItemInsertActivity::class.java)
+            startActivity(intent)
+        }
+
 
         //아이템 전부 가져오는 리사이클러뷰
         initItemListRecyclerView()
@@ -71,6 +78,7 @@ class AllListItemActivity : AppCompatActivity() {
         //아이템 목록 받아옴.
         itemListConnect("like_rank")
 
+        //탭 레이아웃
     }
 
     private fun initItemListRecyclerView(){
@@ -186,11 +194,6 @@ class AllListItemActivity : AppCompatActivity() {
     }
 
     /////////////////////////[메뉴 영역]////////////////////////////////
-    private fun replaceView(tab: Fragment){
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.itemRecyclerView,tab)
-                .commit()
-    }
     //메뉴 옵션 추가
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.item_type, menu)
@@ -199,14 +202,12 @@ class AllListItemActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.like_rank ->
-                itemListConnect("like_rank")
-            R.id.new_rank ->
-                itemListConnect("new_rank")
-            R.id.categori ->
+                //카테고리 가져오기
+            R.id.categori ->{
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.mainView,ItemCategoriFragment())
                     .commit()
+            }
         }
         return super.onOptionsItemSelected(item)
     }

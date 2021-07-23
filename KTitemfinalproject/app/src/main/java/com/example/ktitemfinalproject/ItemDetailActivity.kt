@@ -3,9 +3,12 @@ package com.example.ktitemfinalproject
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
@@ -25,7 +28,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-
+//아이템 하나를 자세히 보는 액티비티
 class ItemDetailActivity:AppCompatActivity() {
     //메인 UI
     private lateinit var  binding: ActivityItemDetailBinding
@@ -35,7 +38,7 @@ class ItemDetailActivity:AppCompatActivity() {
     private lateinit var itemDetailadapter: ItemDetailAdapter
     //어댑터 아이템 디테일
     private lateinit var itemDetailCommentsAdapter: ItemDetailCommentsAdapter
-    //글 번호 저장
+    //글 번호 저장 => 아이템 삭제나 글 등록 후 다시 상품을 가져와야하서
     private var item_no : Int =0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,6 +62,7 @@ class ItemDetailActivity:AppCompatActivity() {
 
         //인터페이스인 itemService를 가져옴
         itemService = retrofit.create(ItemService::class.java)
+
         //아이템 번호 넘기기, 실패시 1로 넘겨 받기
         itemDetailConnect(intent.getIntExtra("bm_no",1))
 
@@ -78,6 +82,7 @@ class ItemDetailActivity:AppCompatActivity() {
         }
     }
 
+    ////처음에 아이템 정보를 가져올 때
     private fun initItemDetailRecyclerView(){
         //아답터를 선언해준다. => 아답터는 데이터를 중간에서 가져와주는 역할을 하는 아이니까!
         itemDetailadapter = ItemDetailAdapter()
@@ -86,6 +91,7 @@ class ItemDetailActivity:AppCompatActivity() {
         //데이터플 ActivityAllListItem의 id에 담아준다
         binding.fileRecyclerView.adapter = itemDetailadapter
     }
+    ////처음에 아이템 댓글들을 가져올 때
     private fun initItemCommentRecyclerView(){
         //아답터를 선언해준다. => 아답터는 데이터를 중간에서 가져와주는 역할을 하는 아이니까!
         itemDetailCommentsAdapter = ItemDetailCommentsAdapter(commentsDeleteListener = {
@@ -117,7 +123,6 @@ class ItemDetailActivity:AppCompatActivity() {
                         itemDetailadapter.submitList(it.itemImgs)
                         //@SerializedName("BM_STATUS") val bm_status: String,
                         //@SerializedName("I_LIKE")val i_like: Int,
-                        //@SerializedName("seller_me")val seller_me:Int,
                         //내용 받아오기
                         binding.bmTitle.text = it.bm_title
                         binding.bmDate.text = it.bm_date
@@ -128,6 +133,17 @@ class ItemDetailActivity:AppCompatActivity() {
                         item_no = it.bm_no //번호 저장 -> 그래야 댓글 삭제, 등록할 때 사용 가능
                         //어댑터 - 댓글 다 가져오기
                         itemDetailCommentsAdapter.submitList(it.itemComments)
+                        
+                        
+                        var ab :ActionBar?
+                        ab = supportActionBar
+                        //만약 나의 판매 물품이면 삭제가 가능
+                        if(it.seller_me==1){
+                            ab?.show()
+                        }else{
+                            //나의 판매 물품이 아니라면 삭제 안됨
+                            ab?.hide()
+                        }
 
                     }
                 }
@@ -139,6 +155,42 @@ class ItemDetailActivity:AppCompatActivity() {
             })
     }
 
+    //메뉴바 만들기 영역 시작//////////////////////////////////////////////////////////////////////////////////////
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.item_detail_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    //메뉴바에 대한 이벤트 : 아이템 삭제
+    override fun onOptionsItemSelected(menuBt: MenuItem): Boolean {
+        when(menuBt.itemId){
+            R.id.delete_myItem->
+                itemDeleteConnect("buy")
+        }
+        return super.onOptionsItemSelected(menuBt)
+    }
+
+    //메뉴바의 이벤트 메소드 => 내 물건 삭제
+    private fun itemDeleteConnect(br_sel_buy : String){
+        itemService.getItemDeleteByName(item_no,br_sel_buy).enqueue(object: Callback<ResponseBody>{
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if(response.isSuccessful.not()){
+                    Log.e("main_fail","Not Success!!")
+                    return
+                }
+                Toast.makeText(applicationContext,"상품 삭제가 완료되었습니다.",Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.e("main_fail",t.toString())
+            }
+
+        })
+    }
+    //메뉴바 만들기 영역 끝///////////////////////////////////////////////////////////////////////////////////////////
+    
+
+    //////////////////////////////////////여기부터는 이벤트 메소드들////////////////////////////////////////////////////
     //댓글 삭제
     private fun commentDelete(it: ItemComments) {
         //댓글 삭제후
