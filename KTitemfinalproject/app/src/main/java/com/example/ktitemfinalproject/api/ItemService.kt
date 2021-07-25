@@ -3,6 +3,7 @@ package com.example.ktitemfinalproject.api
 import com.example.ktitemfinalproject.model.ItemDetailDto
 import com.example.ktitemfinalproject.model.Items
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -54,13 +55,21 @@ interface ItemService {
     //아이템 등록 - @Multipart는 이미지리서 , @Headers는 한글 처리
     @Multipart
     @POST("/item/andInsertItem.nds")
-    @Headers("Content-Type:application/x-www-form-urlencoded; charset=utf-8")
     fun getItemInsertByName(
-        @Query("pr_BM_TITLE") title: String,
-        @Query("pr_BM_PRICE") price: String,
-        @Query("pr_CATEGORY_NAME") categoriChoice: String,
-        @Query("pr_BM_CONTENT") content: String,
-        @Query("pr_SELLER_NICKNAME") nickName: String,
+        @PartMap  params: Map<String,@JvmSuppressWildcards RequestBody>,
+        @Part file: MultipartBody.Part
+    ): Call<ResponseBody>
+
+    //아이템 등록 - @Multipart는 이미지리서 , @Headers는 한글 처리
+    @Multipart
+    @POST("/item/andInsertItem.nds")
+    @Headers("Content-Type:application/x-www-form-urlencoded; charset=utf-8")
+    fun getItemInsertByName1(
+        @Part("pr_BM_TITLE") title: String,
+        @Part("pr_BM_PRICE") price: String,
+        @Part("pr_CATEGORY_NAME") categoriChoice: String,
+        @Part("pr_BM_CONTENT") content: String,
+        @Part("pr_SELLER_NICKNAME") nickName: String,
         @Part("Img1") file: MultipartBody.Part
     ): Call<ResponseBody>
 }
