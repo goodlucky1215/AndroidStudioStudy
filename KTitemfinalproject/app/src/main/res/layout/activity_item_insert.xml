@@ -101,28 +101,19 @@
         android:hint="  내용을 입력 해주세요.  "
         android:textSize="15dp"
         />
-<!--    <androidx.recyclerview.widget.RecyclerView
+
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/insertItemImg"
         android:layout_marginTop="10dp"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        tools:listitem="@layout/imgsitem"
-        app:layout_constraintTop_toBottomOf="@+id/insertItemText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/insertItemImgButton"
-        />-->
-    <ImageView
-        android:id="@+id/insertItemImg"
-        android:layout_marginTop="10dp"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        tools:listitem="@layout/imgsitem"
+        tools:listitem="@layout/imgsitemupload"
         app:layout_constraintTop_toBottomOf="@+id/insertItemText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/insertItemImgButton"
         />
+
     <Button
         android:id="@+id/insertItemImgButton"
         android:layout_width="wrap_content"

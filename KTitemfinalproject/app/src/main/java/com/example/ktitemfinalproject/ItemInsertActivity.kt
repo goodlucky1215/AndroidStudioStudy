@@ -15,7 +15,10 @@ import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.ktitemfinalproject.adapter.PhotoListAdapter
 import com.example.ktitemfinalproject.api.ItemService
+import com.example.ktitemfinalproject.databinding.ActivityItemDetailBinding
 
 import com.example.ktitemfinalproject.databinding.ActivityItemInsertBinding
 
@@ -38,19 +41,20 @@ import kotlin.collections.HashMap
 //아이템 등록하는 액티비티
 class ItemInsertActivity : AppCompatActivity() {
     private var imageName: String? = null
-
     //이미지 등록 url
-    private var selectedUri: Uri? = null
+    private var selectedUri: ArrayList<Uri> = arrayListOf()
     //get,post url주소
     private lateinit var itemService : ItemService
     lateinit var imagepath : String
     //메인 UI
     private lateinit var iteminsertbinding: ActivityItemInsertBinding
-
+    //사진 목록 가져오기
+    private val photoListAdapter = PhotoListAdapter{uri -> removePhoto(uri)}
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         iteminsertbinding = ActivityItemInsertBinding.inflate(layoutInflater)
         setContentView(iteminsertbinding.root)
+
 
         //카테고리 스피너 담기
         val spinner: Spinner = iteminsertbinding.insertItemCategori
@@ -107,31 +111,30 @@ class ItemInsertActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            Toast.makeText(applicationContext,"사진 업로드 중입니다!!!!!!!!!",Toast.LENGTH_SHORT).show()
-            //사진 경로를 저장해서 전송시켜주면 사진이 저장됨.
-            imagepath = getRealPathFromURI(selectedUri).toString()
-            val file = File(imagepath)
-            // Uri 타입의 파일경로를 가지는 RequestBody 객체 생성
-            val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"),file)
-            val body = MultipartBody.Part.createFormData("file", file.getName(), requestFile)
-
             val title1 = RequestBody.create(MediaType.parse("text/plain"), title.text.toString());
             val price1 = RequestBody.create(MediaType.parse("text/plain"), price.text.toString());
             val categoriChoice1 = RequestBody.create(MediaType.parse("text/plain"), categoriChoice);
             val contents1 = RequestBody.create(MediaType.parse("text/plain"), content.text.toString());
             val nickName1 = RequestBody.create(MediaType.parse("text/plain"), "바나나");
 
-            val requestMap = HashMap<String, RequestBody>();
-            requestMap.put("pr_BM_TITLE", title1);
-            requestMap.put("pr_BM_PRICE", price1);
-            requestMap.put("pr_CATEGORY_NAME", categoriChoice1);
-            requestMap.put("pr_BM_CONTENT", contents1);
-            requestMap.put("pr_SELLER_NICKNAME", nickName1);
-            //상품 등록하기
-            itemInsert(requestMap,body)
             //중간에 이미지가 있으면 업로드 과정을 추가
-            if(selectedUri != null){
+            if(selectedUri.isNotEmpty()){
+                //이미지 넣는 부분
+                //imagepath = getRealPathFromURI(selectedUri).toString()
+                val file = File(imagepath)
+                // Uri 타입의 파일경로를 가지는 RequestBody 객체 생성
+                val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"),file)
+                val body = MultipartBody.Part.createFormData("file", file.getName(), requestFile)
 
+                //내용 넣는 부분
+                val requestMap = HashMap<String, RequestBody>();
+                requestMap.put("pr_BM_TITLE", title1);
+                requestMap.put("pr_BM_PRICE", price1);
+                requestMap.put("pr_CATEGORY_NAME", categoriChoice1);
+                requestMap.put("pr_BM_CONTENT", contents1);
+                requestMap.put("pr_SELLER_NICKNAME", nickName1);
+                //상품 등록하기
+                itemInsert(requestMap,body)
             } else {
                 Toast.makeText(applicationContext,"사진을 넣어주세요.",Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -144,11 +147,13 @@ class ItemInsertActivity : AppCompatActivity() {
 
     }
 
-    //사진 업로드
-    private fun uploadPhoto(url: Uri, successHandler: (String) -> Unit, errorHandler:() -> Unit){
-        val fileName = "${System.currentTimeMillis()}.png"
-
+    private fun initViews(){
+        //우리는 데이터를 담을때 linearlayout에 담을 것이기때문에 LinearLayoutManager를 넣어준다.
+        iteminsertbinding.insertItemImg.layoutManager = LinearLayoutManager(this)
+        //데이터플 ActivityAllListItem의 id에 담아준다
+        iteminsertbinding.insertItemImg.adapter = photoListAdapter
     }
+
 
     //상품 업로드하기
     private fun itemInsert(requestMap : HashMap<String, RequestBody>, imageUri: MultipartBody.Part){
@@ -211,8 +216,10 @@ class ItemInsertActivity : AppCompatActivity() {
             2020 ->{
                 val uri = data?.data
                 if (uri != null) {
-                    findViewById<ImageView>(R.id.insertItemImg).setImageURI(uri)
-                    selectedUri = uri
+                    selectedUri.add(uri)
+                    photoListAdapter.setPhotoList(selectedUri)
+                    //이미지 리사이클러뷰
+                    initViews()
                 }
             }
             else ->{
@@ -253,5 +260,12 @@ class ItemInsertActivity : AppCompatActivity() {
             .setPositiveButton("동의"){_, _ ->
                 requestPermissions(arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),1010)
             }
+    }
+
+
+    //사진 삭제
+    private fun removePhoto(uri: Uri){
+        selectedUri.remove(uri)
+        photoListAdapter.setPhotoList(selectedUri)
     }
 }
