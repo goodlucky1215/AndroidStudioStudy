@@ -4,9 +4,11 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.util.Log
@@ -35,6 +37,8 @@ import kotlin.collections.HashMap
 
 //아이템 등록하는 액티비티
 class ItemInsertActivity : AppCompatActivity() {
+    private var imageName: String? = null
+
     //이미지 등록 url
     private var selectedUri: Uri? = null
     //get,post url주소
@@ -104,6 +108,7 @@ class ItemInsertActivity : AppCompatActivity() {
             }
 
             Toast.makeText(applicationContext,"사진 업로드 중입니다!!!!!!!!!",Toast.LENGTH_SHORT).show()
+            //사진 경로를 저장해서 전송시켜주면 사진이 저장됨.
             imagepath = getRealPathFromURI(selectedUri).toString()
             val file = File(imagepath)
             // Uri 타입의 파일경로를 가지는 RequestBody 객체 생성
@@ -215,6 +220,8 @@ class ItemInsertActivity : AppCompatActivity() {
             }
         }
     }
+
+
 
     fun getRealPathFromURI(contentUri: Uri?): String? {
         if (contentUri?.path?.startsWith("/storage") == true) {
