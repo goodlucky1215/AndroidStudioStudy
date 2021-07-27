@@ -18,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <com.google.android.material.tabs.TabLayout
+<!--    <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
             android:text="Pizza"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-    </com.google.android.material.tabs.TabLayout>
+    </com.google.android.material.tabs.TabLayout>-->
 
     <!-- ListView는 전체를 그리므로 재사용성 없고 모든 데이터를 다 그려지므로 느려지거나 앱이 죽을 수도
      그러나 리사이클러뷰는 위에 2개 아래 2개 정도만 그려놓고 재사용하면서 처리해 줌-->
@@ -42,7 +42,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         tools:listitem="@layout/listitem"
-        app:layout_constraintTop_toBottomOf="@+id/tabs"
+        app:layout_constraintTop_toBottomOf="@+id/searchEditText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />

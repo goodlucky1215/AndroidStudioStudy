@@ -30,7 +30,7 @@ interface ItemService {
     ): Call<ItemDetailDto>
 
     //아이템 삭제
-    @POST("/item/andselectItemDetail.nds?")
+    @POST("/item/andDeleteItem.nds")
     fun getItemDeleteByName(
         @Query("pr_bm_no") item_no: Int, //삭제할 물품
         @Query("br_sel_buy") br_sel_buy: String //구매자가 삭제하는지 판매자가 삭제하는지
@@ -56,20 +56,12 @@ interface ItemService {
     @Multipart
     @POST("/item/andInsertItem.nds")
     fun getItemInsertByName(
-        @PartMap  params: Map<String,@JvmSuppressWildcards RequestBody>,
-        @Part file: MultipartBody.Part
+        @PartMap params: Map<String,@JvmSuppressWildcards RequestBody>,
+        @Part file1: MultipartBody.Part?,
+        @Part file2: MultipartBody.Part?,
+        @Part file3: MultipartBody.Part?,
+        @Part file4: MultipartBody.Part?,
+        @Part file5: MultipartBody.Part?
     ): Call<ResponseBody>
 
-    //아이템 등록 - @Multipart는 이미지리서 , @Headers는 한글 처리
-    @Multipart
-    @POST("/item/andInsertItem.nds")
-    @Headers("Content-Type:application/x-www-form-urlencoded; charset=utf-8")
-    fun getItemInsertByName1(
-        @Part("pr_BM_TITLE") title: String,
-        @Part("pr_BM_PRICE") price: String,
-        @Part("pr_CATEGORY_NAME") categoriChoice: String,
-        @Part("pr_BM_CONTENT") content: String,
-        @Part("pr_SELLER_NICKNAME") nickName: String,
-        @Part("Img1") file: MultipartBody.Part
-    ): Call<ResponseBody>
 }

@@ -165,7 +165,7 @@ class ItemDetailActivity:AppCompatActivity() {
     override fun onOptionsItemSelected(menuBt: MenuItem): Boolean {
         when(menuBt.itemId){
             R.id.delete_myItem->
-                itemDeleteConnect("buy")
+                itemDeleteConnect("sel")
         }
         return super.onOptionsItemSelected(menuBt)
     }
@@ -179,6 +179,8 @@ class ItemDetailActivity:AppCompatActivity() {
                     return
                 }
                 Toast.makeText(applicationContext,"상품 삭제가 완료되었습니다.",Toast.LENGTH_SHORT).show()
+                //finish를 하면 현재 화면이 아예 종료된다.
+                finish()
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {

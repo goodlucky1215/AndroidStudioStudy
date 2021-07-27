@@ -121,10 +121,20 @@ class ItemInsertActivity : AppCompatActivity() {
             if(selectedUri.isNotEmpty()){
                 //이미지 넣는 부분
                 //imagepath = getRealPathFromURI(selectedUri).toString()
-                val file = File(imagepath)
-                // Uri 타입의 파일경로를 가지는 RequestBody 객체 생성
-                val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"),file)
-                val body = MultipartBody.Part.createFormData("file", file.getName(), requestFile)
+                // 여러 file들을 담아줄 ArrayList
+                var files : HashMap<String,MultipartBody.Part> = hashMapOf()
+                for (i in 0..4) {
+                    if(selectedUri.size>i) {
+                        imagepath = getRealPathFromURI(selectedUri.get(i)).toString()
+                        val file = File(imagepath)
+                        // Uri 타입의 파일경로를 가지는 RequestBody 객체 생성
+                        val requestFile =
+                            RequestBody.create(MediaType.parse("multipart/form-data"), file)
+                        val body =
+                            MultipartBody.Part.createFormData("file"+i, file.getName(), requestFile)
+                        files.put("file" + i, body)
+                    }
+                }
 
                 //내용 넣는 부분
                 val requestMap = HashMap<String, RequestBody>();
@@ -134,12 +144,8 @@ class ItemInsertActivity : AppCompatActivity() {
                 requestMap.put("pr_BM_CONTENT", contents1);
                 requestMap.put("pr_SELLER_NICKNAME", nickName1);
                 //상품 등록하기
-                itemInsert(requestMap,body)
-            } else {
-                Toast.makeText(applicationContext,"사진을 넣어주세요.",Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
+                itemInsert(requestMap,files)
             }
-
             //finish를 하면 현재 화면이 아예 종료된다.
             finish()
         }
@@ -156,8 +162,13 @@ class ItemInsertActivity : AppCompatActivity() {
 
 
     //상품 업로드하기
-    private fun itemInsert(requestMap : HashMap<String, RequestBody>, imageUri: MultipartBody.Part){
-        itemService.getItemInsertByName(requestMap,imageUri)
+    private fun itemInsert(requestMap : HashMap<String, RequestBody>, files: HashMap<String,MultipartBody.Part>){
+        val file1 = files["file0"]
+        val file2 = files["file1"]
+        val file3 = files["file2"]
+        val file4 = files["file3"]
+        val file5 = files["file4"]
+        itemService.getItemInsertByName(requestMap,file1 ,file2,file3, file4, file5)
             .enqueue(object: Callback<ResponseBody>{
                 //api 요청 성공시
                 override fun onResponse(
@@ -216,10 +227,14 @@ class ItemInsertActivity : AppCompatActivity() {
             2020 ->{
                 val uri = data?.data
                 if (uri != null) {
-                    selectedUri.add(uri)
-                    photoListAdapter.setPhotoList(selectedUri)
-                    //이미지 리사이클러뷰
-                    initViews()
+                    if(selectedUri.size>4){
+                        Toast.makeText(this,"사진은 5개까지 가능합니다",Toast.LENGTH_SHORT).show()
+                    }else{
+                        selectedUri.add(uri)
+                        photoListAdapter.setPhotoList(selectedUri)
+                        //이미지 리사이클러뷰
+                        initViews()
+                    }
                 }
             }
             else ->{
