@@ -81,12 +81,34 @@ class AllListItemActivity : AppCompatActivity() {
         //탭 레이아웃
     }
 
+/*
+    //액티비티에서 액티비티로 넘길때
     private fun initItemListRecyclerView(){
         //아답터를 선언해준다. => 아답터는 데이터를 중간에서 가져와주는 역할을 하는 아이니까!
         adapter = ItemAdapter(itemClickListener = {
             val intent = Intent(this, ItemDetailActivity::class.java)
             intent.putExtra("bm_no",it.bm_no)
             startActivity(intent)
+        })
+        //우리는 데이터를 담을때 linearlayout에 담을 것이기때문에 LinearLayoutManager를 넣어준다.
+        binding.itemRecyclerView.layoutManager = LinearLayoutManager(this)
+        //데이터플 ActivityAllListItem의 id에 담아준다
+        binding.itemRecyclerView.adapter = adapter
+    }
+*/
+
+    //액티비티에서 프래그먼트로 넘길 때
+    private fun initItemListRecyclerView(){
+        //아답터를 선언해준다. => 아답터는 데이터를 중간에서 가져와주는 역할을 하는 아이니까!
+        adapter = ItemAdapter(itemClickListener = {
+            var fragment = ItemDetailFragment()
+            var bundle = Bundle()
+            bundle.putInt("bm_no",it.bm_no)
+            fragment.arguments = bundle
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.mainView,fragment)
+                .commit()
+            finish()
         })
         //우리는 데이터를 담을때 linearlayout에 담을 것이기때문에 LinearLayoutManager를 넣어준다.
         binding.itemRecyclerView.layoutManager = LinearLayoutManager(this)
@@ -203,11 +225,7 @@ class AllListItemActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
                 //카테고리 가져오기
-            R.id.categori ->{
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.mainView,ItemCategoriFragment())
-                    .commit()
-            }
+
         }
         return super.onOptionsItemSelected(item)
     }
@@ -241,8 +259,10 @@ class AllListItemActivity : AppCompatActivity() {
             })
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onRestart() {
+        super.onRestart()
+        var intent = getIntent()
+        finish()
         //새로고침 => 삭제나 아이템 추가시
         startActivity(intent)
     }
