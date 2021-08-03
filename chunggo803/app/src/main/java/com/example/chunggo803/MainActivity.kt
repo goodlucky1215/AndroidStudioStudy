@@ -2,6 +2,7 @@ package com.example.chunggo803
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import com.example.chunggo803.databinding.ActivityMainBinding
@@ -32,6 +33,8 @@ class MainActivity  : AppCompatActivity(), BottomNavigationView.OnNavigationItem
                 true
             }
             R.id.myPage -> {
+                //var a = MyPageFragment.newInstance() 인스턴스화를 할때마다
+                //Log.i("dfdfddf====>",a.toString()) 새로 생성됨
                 replaceFragment(MyPageFragment.newInstance(),MyPageFragment.TAG)
                 true
             }
