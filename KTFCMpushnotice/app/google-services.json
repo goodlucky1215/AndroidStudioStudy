@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "898394125222",
+    "project_id": "ktfcmpushnotice",
+    "storage_bucket": "ktfcmpushnotice.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:898394125222:android:b1cae148c4611cc73ad567",
+        "android_client_info": {
+          "package_name": "com.example.ktfcmpushnotice"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "898394125222-a2va2o3qe3jcr3ik3kn4pmd5109jb9av.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0xZUvikap9Q5_mpGFrRlf2jQc_cfpQt8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "898394125222-a2va2o3qe3jcr3ik3kn4pmd5109jb9av.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
