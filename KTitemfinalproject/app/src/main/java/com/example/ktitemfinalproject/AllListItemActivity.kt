@@ -107,8 +107,8 @@ class AllListItemActivity : AppCompatActivity() {
             fragment.arguments = bundle
             supportFragmentManager.beginTransaction()
                 .replace(R.id.mainView,fragment)
+                .addToBackStack(null)
                 .commit()
-            finish()
         })
         //우리는 데이터를 담을때 linearlayout에 담을 것이기때문에 LinearLayoutManager를 넣어준다.
         binding.itemRecyclerView.layoutManager = LinearLayoutManager(this)
