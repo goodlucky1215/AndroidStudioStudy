@@ -1,4 +1,4 @@
-package com.example.ktworkout80;
+package com.example.workout80;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+
 /*
 * 프래그먼트를 사용하는 액티비티가 있을 경우 서로 의사소통하는 방법
 * */
@@ -21,7 +22,7 @@ public class WorkoutDetailFragment extends Fragment {
      *********************************************************************/
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
-        View view = inflater.inflate(R.layout.frament_worout_detail,container,false);
+        View view = inflater.inflate(R.layout.fragment_workout_detail,container,false);
         return view;
     }
 }

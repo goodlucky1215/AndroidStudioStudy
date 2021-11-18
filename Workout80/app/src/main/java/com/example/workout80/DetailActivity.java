@@ -1,8 +1,9 @@
-package com.example.ktworkout80;
+package com.example.workout80;
+
+import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.Bundle;
 /*
 *  액티비티는 액티비티 스택에 관리
 *  액티비티 라이프사이클 관리
