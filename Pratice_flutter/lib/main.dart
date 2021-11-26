@@ -136,6 +136,22 @@ class MyHomePage extends StatelessWidget {
                 ),
               ],
             ),
+            SizedBox(
+              height: 30.0,
+            ),
+            ButtonTheme(
+              minWidth: 100,
+              height: 50,
+              child: RaisedButton(
+                color: Colors.orangeAccent,
+                child: Icon(
+                  Icons.arrow_forward,
+                  color: Colors.white,
+                  size: 35,
+                ),
+                onPressed: (){},
+              )
+            ),
           ],
         ),
       ),
