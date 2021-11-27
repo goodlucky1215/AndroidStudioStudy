@@ -152,10 +152,34 @@ class MyHomePage extends StatelessWidget {
                 ),
                 onPressed: (){
                   //MaterialPageRoute(builder:(BuildContext context)=>Dice());
-                },
-              )
+                  Navigator.push(context, MaterialPageRoute(
+                      builder: (BuildContext context){
+                        return SecondPage();
+                      }
+                      ));
+                }
+              ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class SecondPage extends StatelessWidget {
+  const SecondPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Second Page'),
+      ),
+      body: Center(
+        child: RaisedButton(
+          child: Text('go to the First page'),
+          onPressed: (){},
         ),
       ),
     );
