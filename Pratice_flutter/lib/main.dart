@@ -31,7 +31,8 @@ class MyHomePage extends StatelessWidget {
         backgroundColor: Colors.amber[700],
         elevation: 0.0,
       ),
-      body: Padding(
+      body: Container(
+        color: Colors.red,
         padding: EdgeInsets.fromLTRB(30.0,40.0,0,0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -149,7 +150,9 @@ class MyHomePage extends StatelessWidget {
                   color: Colors.white,
                   size: 35,
                 ),
-                onPressed: (){},
+                onPressed: (){
+                  //MaterialPageRoute(builder:(BuildContext context)=>Dice());
+                },
               )
             ),
           ],
