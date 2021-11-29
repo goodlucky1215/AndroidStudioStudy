@@ -22,7 +22,7 @@ class MyHomePage extends StatelessWidget {
   const MyHomePage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context2) {
     return Scaffold(
       backgroundColor: Colors.amber[300],
       appBar: AppBar(
@@ -152,12 +152,29 @@ class MyHomePage extends StatelessWidget {
                 ),
                 onPressed: (){
                   //MaterialPageRoute(builder:(BuildContext context)=>Dice());
-                  Navigator.push(context, MaterialPageRoute(
+                  Navigator.push(context2, MaterialPageRoute(
                       builder: (BuildContext context){
                         return SecondPage();
                       }
                       ));
                 }
+              ),
+            ),
+            SizedBox(
+              height: 30.0,
+            ),
+            ButtonTheme(
+              minWidth: 100,
+              height: 50,
+              child: RaisedButton(
+                  color: Colors.orangeAccent,
+                  child: Text('Go to the 두번째!'),
+                  onPressed: (){
+                    //MaterialPageRoute(builder:(BuildContext context)=>Dice());
+                    Navigator.push(context2, MaterialPageRoute(
+                        builder: (context) => SecondPage()
+                    ));
+                  }
               ),
             ),
           ],
@@ -171,7 +188,7 @@ class SecondPage extends StatelessWidget {
   const SecondPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext ctx) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Second Page'),
@@ -179,7 +196,9 @@ class SecondPage extends StatelessWidget {
       body: Center(
         child: RaisedButton(
           child: Text('go to the First page'),
-          onPressed: (){},
+          onPressed: (){
+            Navigator.pop(ctx);
+          },
         ),
       ),
     );
