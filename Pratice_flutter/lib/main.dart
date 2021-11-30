@@ -1,7 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:pratice_flutter/ScreenA.dart';
+import 'package:pratice_flutter/ScreenB.dart';
+import 'package:pratice_flutter/ScreenC.dart';
 
 void main() => runApp(MyApp());
 
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      initialRoute: '/',
+      routes: {
+        '/' : (context) => ScreenA(),
+        '/b' : (context) => ScreenB(),
+        '/c' : (context) => ScreenC()
+      },
+    );
+  }
+}
+
+/*
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -13,10 +33,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue //색상을 지정하는 것
       ), //ThemeData => 앱의 기본적인 디자인 테마를 지정하는 것
-      home: MyHomePage(), //home => 화면을 키면 가장 먼저 보여지는 화면 
+      home: MyHomePage(), //home => 화면을 키면 가장 먼저 보여지는 화면
     );
   }
 }
+
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -172,7 +193,7 @@ class MyHomePage extends StatelessWidget {
                   onPressed: (){
                     //MaterialPageRoute(builder:(BuildContext context)=>Dice());
                     Navigator.push(context2, MaterialPageRoute(
-                        builder: (context) => SecondPage()
+                        builder: (context) => SecondPage() // == (_) => SecondPage() (_) 언더바는 필요없는 매개변수를 표시할 때 사용(플러터에서 권장사항)
                     ));
                   }
               ),
@@ -204,3 +225,4 @@ class SecondPage extends StatelessWidget {
     );
   }
 }
+*/
